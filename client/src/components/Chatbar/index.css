@@ -1,0 +1,26 @@
+.usersList {
+    position: absolute;
+    background: #ff7112;
+    border-radius: 12px;
+    width: 50%;
+    list-style: none;
+    padding: 5px;
+}
+
+.usersList li {
+    padding: 5px;
+}
+
+.usersList li:hover {
+    cursor: pointer;
+    color: white;
+}
+
+.privateReceiver {
+    background: #0f373f;
+    color: white;
+}
+
+.privateSender {
+    background: #0f373f;
+}

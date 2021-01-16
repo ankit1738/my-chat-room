@@ -2,28 +2,31 @@ import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 import io from "socket.io-client";
 import "./index.css";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import Sidebar from "../Sidebar";
 import Chatbar from "../Chatbar";
 
 let socket;
 
-function Chat({ location }) {
+function Chat() {
     const [name, setName] = useState("");
     const [room, setRoom] = useState("");
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
     const [usersOnline, setUsersOnline] = useState([]);
+    const history = useHistory();
+    const location = useLocation();
     let SERVER = "localhost:5000";
-    let history = useHistory();
+
     useEffect(() => {
         const { room, name } = queryString.parse(location.search);
+        const isCreate = location.state.isCreate;
 
         socket = io(SERVER);
 
         setName(name);
         setRoom(room);
-        socket.emit("join", { name, room }, (error) => {
+        socket.emit("join", { name, room, isCreate }, (error) => {
             if (error) {
                 alert(error);
                 history.push("/");
@@ -41,12 +44,29 @@ function Chat({ location }) {
         socket.on("roomData", (data) => {
             setUsersOnline(data.users);
         });
+        socket.on("privateMessage", (message) => {
+            setMessages((previous) => [...previous, message]);
+        });
     }, []);
 
     const sendMessage = (e) => {
         e.preventDefault();
         if (message) {
-            socket.emit("sendMessage", message, () => setMessage(""));
+            console.log(message);
+            console.log(message[0]);
+            if (message[0] === "@") {
+                const pos = message.indexOf(" ");
+                const user = usersOnline.find(
+                    (user) => user.name === message.slice(1, pos)
+                );
+                socket.emit(
+                    "privateMessage",
+                    { message: message.slice(pos, message.length), user },
+                    () => setMessage("")
+                );
+            } else {
+                socket.emit("sendMessage", message, () => setMessage(""));
+            }
         }
     };
 
@@ -55,6 +75,7 @@ function Chat({ location }) {
         <div className="outerContainer">
             <Sidebar room={room} usersOnline={usersOnline} />
             <Chatbar
+                usersOnline={usersOnline}
                 name={name}
                 messages={messages}
                 message={message}

@@ -23,7 +23,7 @@ body {
 }
 
 .container {
-    background: #038c88;
+    background: #ff7112;
     margin: 5px;
 }
 
@@ -38,7 +38,7 @@ body {
 
 .left {
     height: 80vh;
-    background: #038c88;
+    background: #ff7112;
     border-radius: 12px 0 0 12px;
     width: 20vw;
     padding: 16px;
@@ -74,12 +74,12 @@ form {
 
 form input {
     flex: 5;
-    border: 2px solid #038c88;
+    border: 2px solid #ff7112;
 }
 
 form button {
     flex: 1;
-    background: #038c88;
+    background: #ff7112;
     border-radius: 0 0 12px 0;
     border: none;
 }
@@ -88,9 +88,10 @@ form button {
     color: #ffffff;
     float: right;
     margin: 10px 16px 10px 10px;
-    background: #038c88;
+    background: #ff7112;
     padding: 14px;
     border-radius: 14px;
+    max-width: 70%;
 }
 
 .moveLeft {
@@ -99,6 +100,7 @@ form button {
     background: #ededed;
     padding: 14px;
     border-radius: 14px;
+    max-width: 70%;
 }
 
 .messages,
@@ -119,12 +121,22 @@ form button {
     border-radius: 0 14px 0 0;
 }
 
-.userName {
+.userNameLeft {
     float: left;
     padding: 14px 0;
     margin: 10px 0;
     color: #ababab;
     font-size: 12px;
+    max-width: 15%;
+}
+
+.userNameRight {
+    float: right;
+    padding: 14px 0;
+    margin: 10px 0;
+    color: #ababab;
+    font-size: 12px;
+    max-width: 15%;
 }
 
 @media only screen and (max-width: 500px) {
